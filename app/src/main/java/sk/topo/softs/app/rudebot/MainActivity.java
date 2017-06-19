@@ -1,14 +1,15 @@
 package sk.topo.softs.app.rudebot;
 
 import android.arch.lifecycle.LifecycleActivity;
-import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.MainThread;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
@@ -57,6 +58,13 @@ public class MainActivity extends LifecycleActivity {
         manager.setSmoothScrollbarEnabled(true);
         chatRecyclerView.setLayoutManager(manager);
         chatRecyclerView.setAdapter(viewModel.getAdapter());
+        viewModel.getRepository().getMessages().observe(this, new Observer<List<ChatMessage>>() {
+            @Override
+            public void onChanged(@Nullable List<ChatMessage> chatMessages) {
+                Toast.makeText(MainActivity.this, "messages: " + chatMessages.size(), Toast.LENGTH_SHORT).show();
+                chatRecyclerView.getAdapter().notifyDataSetChanged();
+            }
+        });
     }
 
     @Click(R.id.sendButton)

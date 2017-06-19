@@ -1,14 +1,6 @@
 package sk.topo.softs.app.rudebot.viewmodel;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.text.Editable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import sk.topo.softs.app.rudebot.DatabaseInstance;
 import sk.topo.softs.app.rudebot.adapter.MessageAdapter;
@@ -23,15 +15,14 @@ import sk.topo.softs.app.rudebot.repository.ChatMessageRepository;
 public class MainViewModel extends ViewModel {
 
     protected String messageDraft = new String();
-    //protected LiveData<List<ChatMessage>> messages;
     protected MessageAdapter adapter;
     protected WordProcessor processor;
 
     protected ChatMessageRepository repository;
 
     public MainViewModel() {
-        //messages = DatabaseInstance.get().chatMessageDao().loadAll();
         processor = new WordProcessor();
+        repository = new ChatMessageRepository();
     }
 
     public String getMessageDraft() {
@@ -43,18 +34,19 @@ public class MainViewModel extends ViewModel {
     }
 
     public void sendMessage(final String text) {
-        /*DatabaseInstance.get().chatMessageDao().save(new ChatMessage(text, true));
+        DatabaseInstance.get().chatMessageDao().save(new ChatMessage(text, true));
+        DatabaseInstance.get().chatMessageDao().save(new ChatMessage(processor.getResponseOnMessage(text), false));
         adapter.getItemCount();
-        //*///List<ChatMessage> m = DatabaseInstance.get().chatMessageDao().loadAllNow();
-        adapter.addMessage(new ChatMessage(text, true));
-        adapter.addMessage(new ChatMessage(processor.getResponseOnMessage(text), false));
-
     }
 
     public MessageAdapter getAdapter() {
         if (adapter == null) {
-            adapter = new MessageAdapter();
+            adapter = new MessageAdapter(repository.getMessages());
         }
         return adapter;
+    }
+
+    public ChatMessageRepository getRepository() {
+        return repository;
     }
 }

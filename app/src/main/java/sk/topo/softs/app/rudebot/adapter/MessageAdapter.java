@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sk.topo.softs.app.rudebot.R;
@@ -21,21 +20,10 @@ import sk.topo.softs.app.rudebot.model.ChatMessage;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
-    //protected LiveData<List<ChatMessage>> messages;
-    protected List<ChatMessage> messages;
-
+    protected LiveData<List<ChatMessage>> messages;
 
     public MessageAdapter(LiveData<List<ChatMessage>> messages) {
-        //this.messages = messages;
-    }
-
-    public MessageAdapter() {
-        messages = new ArrayList<>();
-
-    }
-
-    public void addMessage(ChatMessage message) {
-        messages.add(message);
+        this.messages = messages;
     }
 
     @Override
@@ -47,17 +35,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(MessageViewHolder holder, int position) {
-        ChatMessage m = messages.get(position);
+        ChatMessage m = messages.getValue().get(position);
         holder.message.setText(m.getMessage());
         holder.message.setBackgroundColor(m.isHuman() ? Color.GREEN : Color.GRAY);
     }
 
     @Override
     public int getItemCount() {
-        /*if (messages.getValue() == null) {
+        if (messages.getValue() == null) {
             return 0;
-        }*/
-        return messages.size();
+        }
+        return messages.getValue().size();
     }
 
     public class MessageViewHolder extends RecyclerView.ViewHolder {

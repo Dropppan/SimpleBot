@@ -6,14 +6,14 @@ package sk.topo.softs.app.rudebot.core;
 
 public class WordProcessor {
 
-    private String[] greetings = {"ahoj", "cau", "zdar"};
+    private String[] greetings = {"ahoj", "cau", "zdar", "hi", "hallo", "greetings"};
 
     public String getResponseOnMessage(String message) {
         String response;
         if (contains(message, greetings)){
-            response = "No vitaj skrcek, ja som Rudebot, je mile ze vies aspon pozdravit :P";
+            response = "Zdravim Ta, je prijemne stretnut niekoho, kto vie slusne pozdravit ;) [Hallo nice to meet you]";
         } else {
-            response = "Akoze nauc sa pisat lebo ja ti vobec absolutne nerozumiem, rozumie ti vobec niekto? Povinna skolska dochadzka ukoncena? :P";
+            response = "Bohuzial, nerozumiem tomu co pises, som este mlady a neskuseny, pockaj mozno sa naucim casom viac :P [Sorry, my word database is soooo small and young, maybe future will gain more and I will understand you ;)]";
         }
         return response;
     }
